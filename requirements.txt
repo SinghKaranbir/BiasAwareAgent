@@ -1,0 +1,6 @@
+langchain
+langchain-openai
+chromadb
+langchain_chroma
+langchain-community
+langgraph
