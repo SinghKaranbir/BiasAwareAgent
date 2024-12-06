@@ -4,3 +4,7 @@ chromadb
 langchain_chroma
 langchain-community
 langgraph
+transformers
+torch
+unstructured
+pandas
