@@ -55,7 +55,7 @@ Step-by-step guide on how to install and set up the project.
 
 6. Pull and run ChromaDB using Docker
    docker pull chromadb/chromadb
-   docker run -p 8000:8000 chromadb/chromadb
+   docker run -p 8000:8000 -v PATH_TO_DIR:/chroma/chroma chromadb/chromadb
 
 7. Update the `config.json` file with the following ChromaDB configuration. When running for the first time, set `add_knowledge` to `true`:
 ```json
