@@ -1,4 +1,4 @@
-# Gardening Planner
+# Bias Aware Agent
 
 ## Table of Contents
 - [About the Project](#about-the-project)
