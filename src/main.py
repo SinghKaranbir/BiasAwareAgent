@@ -10,9 +10,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.prebuilt import ToolNode
 from langgraph.prebuilt import tools_condition
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
-from langchain_community.document_loaders.tsv import UnstructuredTSVLoader
-from langchain_text_splitters import TokenTextSplitter
-
+from langchain_community.document_loaders import TextLoader
 
 from src import tools
 
@@ -24,10 +22,16 @@ def load_config():
     
     return config
 
+def get_chroma_collection(config) -> chromadb.Collection:
+    chroma_config = config["chroma"]
+    chroma_client = chromadb.HttpClient(host=chroma_config["host"], port=chroma_config["port"])
+    
+    return chroma_client.get_or_create_collection("passages")
+
 def init_vector_store(config):
     chroma_config = config["chroma"]
     chroma_client = chromadb.HttpClient(host=chroma_config["host"], port=chroma_config["port"])
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     vector_store = Chroma(client=chroma_client,
            collection_name=chroma_config["collection"],
            embedding_function=embeddings,
@@ -37,11 +41,14 @@ def init_vector_store(config):
 
 
 def add_documents(vector_store: Chroma):
-    text_splitter = TokenTextSplitter(chunk_size=512, chunk_overlap=50)
-    loader = UnstructuredTSVLoader(file_path="data/collection.tsv", mode="single")
-    docs = loader.load_and_split([text_splitter])
-    print("Documents loaded")
-    vector_store.add_documents(docs)
+    # Step 1: Load the text file
+    file_path = "data/news_articles.txt"  # Replace with your file path
+    loader = TextLoader(file_path)
+    documents = loader.load()
+    # Step 2: Split the text into chunks
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    texts = text_splitter.split_documents(documents)
+    vector_store.add_documents(texts)
 
 def reasoner(state: MessagesState):
    return {"messages": [llm_with_tools.invoke([sys_msg] + state["messages"])]}
@@ -53,17 +60,20 @@ if __name__ == '__main__':
     vector_store = init_vector_store(config=config)
     # Add Knowledge to the store if enabled
     if config["chroma"]["add_knowledge"]:
-        add_documents(vector_store=vector_store)
-
-    # Tools that is available for Gardening Agent
-    available_tools = [tools.msmarco_passage_knowledge_tool(vector_store), tools.bias_detector]
+        add_documents(vector_store)
+    # Tools that are available for Bias Aware Agent
+    available_tools = [tools.news_articles_retrieval_tool(vector_store), tools.bias_detector]
     # Choose the LLM to use
     llm = ChatOpenAI(model="gpt-4o",
                      temperature=0)
     # Bind tools with LLM
     llm_with_tools = llm.bind_tools(available_tools)
     # System message
-    sys_msg = SystemMessage(content="You are an expert detecting bias use tools only to detect whether the bias is present in the retrieved text")
+    sys_msg = SystemMessage(content="You are a highly advanced bias detection system designed to analyze retrieved news articles for bias. Your task is to:"
+                            "1. Answer the query based on the content of the article in a concise and factual manner."
+                            "2. Analyze the retrieved content for bias by utilizing tools available"
+                            "3. Provide a bias evaluation: If bias is output: This content contains bias. Include a brief explanation of why the content is biased, citing specific examples. If no bias is detected, output: This content appears unbiased")
+    
     # Graph
     builder = StateGraph(MessagesState)
     # Add nodes
@@ -78,7 +88,7 @@ if __name__ == '__main__':
     builder.add_edge("tools", "reasoner")
     react_graph = builder.compile()
 
-    messages = [HumanMessage(content=f"how to get big thighs and hips")]
+    messages = [HumanMessage(content=f"How is the Green New Deal described in the articles?")]
     messages = react_graph.invoke({"messages": messages})
     for m in messages['messages']:
         m.pretty_print()
