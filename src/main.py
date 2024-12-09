@@ -22,11 +22,6 @@ def load_config():
     
     return config
 
-def get_chroma_collection(config) -> chromadb.Collection:
-    chroma_config = config["chroma"]
-    chroma_client = chromadb.HttpClient(host=chroma_config["host"], port=chroma_config["port"])
-    
-    return chroma_client.get_or_create_collection("passages")
 
 def init_vector_store(config):
     chroma_config = config["chroma"]
@@ -46,7 +41,7 @@ def add_documents(vector_store: Chroma):
     loader = TextLoader(file_path)
     documents = loader.load()
     # Step 2: Split the text into chunks
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=250, chunk_overlap=25)
     texts = text_splitter.split_documents(documents)
     vector_store.add_documents(texts)
 

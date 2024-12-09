@@ -62,22 +62,12 @@ Step-by-step guide on how to install and set up the project.
 "chroma": {
     "host": "localhost",
     "port": 8000,
-    "collection": "gardening_store",
+    "collection": "news_articles",
     "add_knowledge": true
 }
 ```
 After the initial run, set `add_knowledge` to `false` for subsequent runs.
 ```
-
-The agent will guide you through setting up your crop plan for the current season and provide personalized tips based on your preferences.
-
-## Features
-
-- Intelligent gardening schedule planner
-- Crop planning for the current season
-- Personalized gardening tips using GPT-4
-- Integration with ChromaDB for efficient data management
-- Customizable user input and outputs
 
 ## Contributing
 
