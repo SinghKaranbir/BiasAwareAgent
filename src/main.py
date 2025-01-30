@@ -12,8 +12,8 @@ from langgraph.prebuilt import tools_condition
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
 from langchain_community.document_loaders import TextLoader
 
-from src import tools
-
+import tools
+import sys
 
 def load_config():
     # Load Configuration
@@ -82,8 +82,9 @@ if __name__ == '__main__':
     )
     builder.add_edge("tools", "reasoner")
     react_graph = builder.compile()
-
-    messages = [HumanMessage(content=f"How is the Green New Deal described in the articles?")]
+    # query = input("Please enter your query: ")
+    query=sys.argv[1]
+    messages = [HumanMessage(content=query)]
     messages = react_graph.invoke({"messages": messages})
     for m in messages['messages']:
         m.pretty_print()
