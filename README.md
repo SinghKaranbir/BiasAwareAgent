@@ -5,11 +5,8 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
+- [Authors](#authors)
 
 ## About the Project
 
