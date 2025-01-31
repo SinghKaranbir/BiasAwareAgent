@@ -64,10 +64,11 @@ Step-by-step guide on how to install and set up the project.
     "port": 8000,
     "collection": "news_articles",
     "add_knowledge": true
-}
+}```
 ```
+
 After the initial run, set `add_knowledge` to `false` for subsequent runs.
-```
+
 ## Authors
 - **Karanbir Singh** (Salesforce, ILM Cloud)
 - **William Ngu** (Salesforce, ILM Cloud)
