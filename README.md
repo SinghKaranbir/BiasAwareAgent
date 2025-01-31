@@ -86,7 +86,8 @@ If you use this work, please cite:
   title = {Bias-Aware Agent: Enhancing Fairness in AI-Driven Knowledge Retrieval},
   booktitle = {Companion Proceedings of the Web Conference},
   year = {2025}
-}```
+}
+```
 
 ## License
 Distributed under the MIT License.
