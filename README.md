@@ -13,7 +13,7 @@
 
 ## About the Project
 
-BiasAwareAgent is an intelligent agent designed to assist users to retrieve least biased relevant information out of the corpus. Implemented using LangChain, LangGraph, ChromaDB, and OpenAI's GPT-4o, this project is based on the ReAct (Reasoning and Acting) Agent framework. 
+This repository contains the implementation of Bias-Aware Agent, a novel AI-driven framework designed to enhance fairness in Agentic systems by detecting and mitigating bias in retrieved content. The agent integrates bias detection tools within an agentic framework, leveraging ReAct-based reasoning to dynamically assess and flag bias in retrieved knowledge. Implemented using LangChain, LangGraph, ChromaDB, and OpenAI's GPT-4o.
 
 ## Getting Started
 
@@ -68,24 +68,27 @@ Step-by-step guide on how to install and set up the project.
 ```
 After the initial run, set `add_knowledge` to `false` for subsequent runs.
 ```
+## Authors
+- **Karanbir Singh** (Salesforce, ILM Cloud)
+- **William Ngu** (Salesforce, ILM Cloud)
 
-## Contributing
+## Experimental Results
+- **F1-score**: 0.795 (Weighted Average)
+- **Bias Detection Accuracy**: ~79%
+- **Confidence Level**: 0.821 on average
 
-Contributions are what make the open-source community amazing! If you would like to contribute, please follow these steps:
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Citation
+If you use this work, please cite:
+```bibtex
+@inproceedings{singh2024biasaware,
+  author = {Karanbir Singh and William Ngu},
+  title = {Bias-Aware Agent: Enhancing Fairness in AI-Driven Knowledge Retrieval},
+  booktitle = {Companion Proceedings of the Web Conference},
+  year = {2025}
+}```
 
 ## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-Karanbir Singh - [www.linkedin.com/in/singhkaranbir1](www.linkedin.com/in/singhkaranbir1)
-
+Distributed under the MIT License.
 
 ## Acknowledgments
 
