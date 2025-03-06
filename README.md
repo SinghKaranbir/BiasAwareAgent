@@ -51,7 +51,7 @@ Step-by-step guide on how to install and set up the project.
    pip install -r requirements.txt
 
 6. Pull and run ChromaDB using Docker
-   docker pull chromadb/chromadb
+   docker pull chromadb/chroma
    docker run -p 8000:8000 -v PATH_TO_DIR:/chroma/chroma chromadb/chroma
 
 7. Update the `config.json` file with the following ChromaDB configuration. When running for the first time, set `add_knowledge` to `true`:
